@@ -82,6 +82,16 @@ Returns a promise containing the IP that relates to `mac` or `null` if a match c
 
 ---
 
+### `is(type: 'static' | 'dynamic' | 'undefined', address: string): Promise<boolean>`
+
+- `address` can be any valid IP or MAC address
+
+Returns a promise containing a boolean which indicates the record for `address` is `type`.  
+Pass `type = "undefined"` to determine if a record for `address` exists or not  
+**Throws** an `"Invalid address"` error if `address` is not a valid IP or MAC address
+
+---
+
 ### `isMAC(mac: string): boolean`
 
 Checks if a MAC address is valid
@@ -91,16 +101,6 @@ Checks if a MAC address is valid
 ### `isIP(ip: string): boolean`
 
 Checks if an IP address is valid
-
----
-
-### `is(type: 'static' | 'dynamic' | 'undefined', address: string): Promise<boolean>`
-
-- `address` can be any valid IP or MAC address
-
-Returns a promise containing a boolean which indicates the record for `address` is `type`.  
-Pass `type = "undefined"` to determine if a record for `address` exists or not  
-**Throws** an `"Invalid address"` error if `address` is not a valid IP or MAC address
 
 ---
 
