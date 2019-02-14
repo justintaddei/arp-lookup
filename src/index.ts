@@ -1,13 +1,13 @@
 import { exec } from 'child_process'
 import { isIP } from 'net'
 
-interface IArpTableRow {
+export interface IArpTableRow {
   ip: string
   mac: string
   type: 'static' | 'dynamic'
 }
 
-type IArpTable = IArpTableRow[]
+export type IArpTable = IArpTableRow[]
 
 /*
 
