@@ -176,7 +176,7 @@ export async function toIP(mac: string): Promise<string | null> {
   return match
 }
 
-export async function is(type: 'static' | 'dynamic' | 'undefined', address: string) {
+export async function is(type: 'static' | 'dynamic' | 'undefined', address: string): Promise<boolean> {
   if (!isIP(address) && !isMAC(address)) throw Error('Invalid address')
 
   if (isMAC(address)) address = normalize(address)
