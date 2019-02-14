@@ -1,7 +1,7 @@
 {
-  "name": "",
+  "name": "@network-utils/arp-lookup",
   "version": "1.0.0",
-  "description": "A simple TCP ping util, written in Typescript, to test the reachability and latency of a host.",
+  "description": "A simple ARP util to map an IP address to a MAC address and vice versa.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -26,7 +26,16 @@
   "engines": {
     "node": ">=8.10.0"
   },
-  "keywords": [],
+  "keywords": [
+    "arp",
+    "table",
+    "ip",
+    "mac",
+    "tcp",
+    "convert",
+    "lookup",
+    "validate"
+  ],
   "files": [
     "dist/**/*"
   ],
