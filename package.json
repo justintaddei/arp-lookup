@@ -17,12 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/justintaddei/.git"
+    "url": "git+https://github.com/justintaddei/arp-lookup.git"
   },
   "bugs": {
-    "url": "https://github.com/justintaddei/____/issues"
+    "url": "https://github.com/justintaddei/arp-lookup/issues"
   },
-  "homepage": "https://github.com/justintaddei/",
+  "homepage": "https://github.com/justintaddei/arp-lookup",
   "engines": {
     "node": ">=8.10.0"
   },
