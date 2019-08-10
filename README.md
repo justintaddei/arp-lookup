@@ -44,7 +44,7 @@ await arp.is('static', '192.168.2.255') // true
 await arp.is('static', 'ff:ff:ff:ff:ff:ff') // true
 await arp.is('undefined', '0.0.0.0') // true
 
-await arp.toTable()
+await arp.getTable()
 // Result:
 [
     { ip: '192.168.137.255', mac: 'ff:ff:ff:ff:ff:ff', type: 'static' },
@@ -107,8 +107,8 @@ Checks if an IP address is valid
 ## Testing
 
 ```bash
-$ git clone https://github.com/justintaddei/tcp-ping.git
-$ cd tcp-ping
+$ git clone https://github.com/justintaddei/arp-lookup.git
+$ cd arp-lookup
 $ npm install
 $ npm test
 ```
