@@ -1,10 +1,12 @@
 import { exec } from 'child_process'
 import { isIP } from 'net'
+import jsonMacAddress from './macaddress.json'  // from https://macaddress.io/database-download/json
 
 export interface IArpTableRow {
   ip: string
   mac: string
-  type: 'static' | 'dynamic'
+  type: 'static' | 'dynamic',
+  vendor: string
 }
 
 export type IArpTable = IArpTableRow[]
@@ -14,8 +16,8 @@ export type IArpTable = IArpTableRow[]
 $ arp -a
 
 Interface: 192.168.137.1 --- 0x2
-  Internet Address      Physical Address      Type
-  192.168.137.255       ff-ff-ff-ff-ff-ff     static
+  Internet Address      Physical Address      Type      Vendor
+  192.168.137.255       ff-ff-ff-ff-ff-ff     static    
   224.0.0.22            01-00-5e-00-00-16     static
   224.0.0.251           01-00-5e-00-00-fb     static
   224.0.0.252           01-00-5e-00-00-fc     static
@@ -23,7 +25,7 @@ Interface: 192.168.137.1 --- 0x2
   255.255.255.255       ff-ff-ff-ff-ff-ff     static
 
 Interface: 192.168.2.2 --- 0x9
-  Internet Address      Physical Address      Type
+  Internet Address      Physical Address      Type      Vendor
   192.168.2.1           04-a1-51-1b-12-92     dynamic
   192.168.2.255         ff-ff-ff-ff-ff-ff     static
   224.0.0.2             01-00-5e-00-00-02     static
@@ -38,20 +40,20 @@ Interface: 192.168.2.2 --- 0x9
 > await getArpTable()
 
 [
-  { ip: '192.168.137.255', mac: 'ff-ff-ff-ff-ff-ff', type: 'static' },
-  { ip: '224.0.0.22', mac: '01-00-5e-00-00-16', type: 'static' },
-  { ip: '224.0.0.251', mac: '01-00-5e-00-00-fb', type: 'static' },
-  { ip: '224.0.0.252', mac: '01-00-5e-00-00-fc', type: 'static' },
-  { ip: '239.255.255.250', mac: '01-00-5e-7f-ff-fa', type: 'static' },
-  { ip: '255.255.255.255', mac: 'ff-ff-ff-ff-ff-ff', type: 'static' },
-  { ip: '192.168.2.1', mac: '04-a1-51-1b-12-92', type: 'dynamic' },
-  { ip: '192.168.2.255', mac: 'ff-ff-ff-ff-ff-ff', type: 'static' },
-  { ip: '224.0.0.2', mac: '01-00-5e-00-00-02', type: 'static' },
-  { ip: '224.0.0.22', mac: '01-00-5e-00-00-16', type: 'static' },
-  { ip: '224.0.0.251', mac: '01-00-5e-00-00-fb', type: 'static' },
-  { ip: '224.0.0.252', mac: '01-00-5e-00-00-fc', type: 'static' },
-  { ip: '239.255.255.250', mac: '01-00-5e-7f-ff-fa', type: 'static' },
-  { ip: '255.255.255.255', mac: 'ff-ff-ff-ff-ff-ff', type: 'static' }
+  { ip: '192.168.137.255', mac: 'ff-ff-ff-ff-ff-ff', type: 'static', vendor: '' },
+  { ip: '224.0.0.22', mac: '01-00-5e-00-00-16', type: 'static', vendor: '' },
+  { ip: '224.0.0.251', mac: '01-00-5e-00-00-fb', type: 'static', vendor: '' },
+  { ip: '224.0.0.252', mac: '01-00-5e-00-00-fc', type: 'static', vendor: '' },
+  { ip: '239.255.255.250', mac: '01-00-5e-7f-ff-fa', type: 'static', vendor: '' },
+  { ip: '255.255.255.255', mac: 'ff-ff-ff-ff-ff-ff', type: 'static', vendor: '' },
+  { ip: '192.168.2.1', mac: '04-a1-51-1b-12-92', type: 'dynamic', vendor: '' },
+  { ip: '192.168.2.255', mac: 'ff-ff-ff-ff-ff-ff', type: 'static', vendor: '' },
+  { ip: '224.0.0.2', mac: '01-00-5e-00-00-02', type: 'static', vendor: '' },
+  { ip: '224.0.0.22', mac: '01-00-5e-00-00-16', type: 'static', vendor: '' },
+  { ip: '224.0.0.251', mac: '01-00-5e-00-00-fb', type: 'static', vendor: '' },
+  { ip: '224.0.0.252', mac: '01-00-5e-00-00-fc', type: 'static', vendor: '' },
+  { ip: '239.255.255.250', mac: '01-00-5e-7f-ff-fa', type: 'static', vendor: '' },
+  { ip: '255.255.255.255', mac: 'ff-ff-ff-ff-ff-ff', type: 'static', vendor: '' }
 ]
 
 */
@@ -94,8 +96,8 @@ export function getTable(): Promise<IArpTable> {
         Expected output:
 
         Interface: 192.168.137.1 --- 0x2
-            Internet Address      Physical Address      Type
-            192.168.1.255       ff-ff-ff-ff-ff-ff     static
+            Internet Address      Physical Address      Type      Vendor
+            192.168.1.255         ff-ff-ff-ff-ff-ff     static
             192.168.2.1           04-a1-51-1b-12-92     dynamic
             224.0.0.22            01-00-5e-00-00-16     static
       */
@@ -125,11 +127,16 @@ export function getTable(): Promise<IArpTable> {
         */
         if (!isIP(ip) || !isMAC(mac)) continue
 
+        const nomalizedMac = normalize(mac)
+
+        const vendor = (jsonMacAddress as any[]).find( (el: { oui: string; }) => nomalizedMac.startsWith( el.oui.toLowerCase() ) )
+
         // Add this row to the table
         table.push({
           ip,
-          mac: normalize(mac),
-          type: type as 'static' | 'dynamic'
+          mac: nomalizedMac,
+          type: type as 'static' | 'dynamic',
+          vendor: vendor ? vendor.companyName : ''
         })
       }
 
@@ -150,7 +157,7 @@ export async function toMAC(ip: string): Promise<string | null> {
   const arpTable = await getTable()
   // Try to find a match in the table
   const match: string = arpTable.reduce((prev, curr) => (curr.ip === ip ? curr.mac : prev), '')
-  // If no match was found then return null
+  // If no match was vendor then return null
   if (!match) return null
   // Otherwise return with the mac
   return match
@@ -170,7 +177,7 @@ export async function toIP(mac: string): Promise<string | null> {
 
   // Try to find a match in the table
   const match: string = arpTable.reduce((prev, curr) => (curr.mac === mac ? curr.ip : prev), '')
-  // If no match was found then return null
+  // If no match was vendor then return null
   if (!match) return null
   // Otherwise return with the ip
   return match
