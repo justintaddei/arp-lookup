@@ -41,6 +41,9 @@
   ],
   "author": "Justin Taddei",
   "license": "MIT",
+  "contributors": [
+    "Alessio Carrafa <alessio.carrafa@hotmail.it> (http://www.alessiocarrafa.it/)"
+  ],
   "devDependencies": {
     "@types/jest": "24.0.18",
     "jest": "24.9.0",
