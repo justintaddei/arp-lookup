@@ -1,5 +1,5 @@
 const arpTable = `Interface: 192.168.137.1 --- 0x2
-  Internet Address      Physical Address      Type
+  Internet Address      Physical Address      Type      Vendor
   192.168.137.255       ff-ff-ff-ff-ff-ff     static
   224.0.0.22            01-00-5e-00-00-16     static
   224.0.0.251           01-00-5e-00-00-fb     static
@@ -8,7 +8,7 @@ const arpTable = `Interface: 192.168.137.1 --- 0x2
   255.255.255.255       ff-ff-ff-ff-ff-ff     static
 
 Interface: 192.168.2.2 --- 0x9
-  Internet Address      Physical Address      Type
+  Internet Address      Physical Address      Type      Vendor
   192.168.2.1           04-a1-51-1b-12-92     dynamic
   192.168.2.255         ff-ff-ff-ff-ff-ff     static
   224.0.0.2             01-00-5e-00-00-02     static
