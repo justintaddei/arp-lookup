@@ -1,6 +1,6 @@
 import { exec } from 'child_process'
 import { isIP } from 'net'
-import jsonMacAddress from './macaddress.json'  // from https://macaddress.io/database-download/json
+import jsonVendors from './vendors.json'  // from https://macaddress.io/database-download/json
 
 export interface IArpTableRow {
   ip: string
@@ -10,6 +10,11 @@ export interface IArpTableRow {
 }
 
 export type IArpTable = IArpTableRow[]
+
+interface IVendor {
+  oui: string,
+  companyName: string
+}
 
 /*
 
@@ -129,7 +134,7 @@ export function getTable(): Promise<IArpTable> {
 
         const nomalizedMac = normalize(mac)
 
-        const vendor = (jsonMacAddress as any[]).find( (el: { oui: string; }) => nomalizedMac.startsWith( el.oui.toLowerCase() ) )
+        const vendor = (jsonVendors as IVendor[]).find(({oui}) => nomalizedMac.startsWith(oui.toLowerCase()))
 
         // Add this row to the table
         table.push({
