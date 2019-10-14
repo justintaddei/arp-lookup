@@ -1,20 +1,15 @@
 import { exec } from 'child_process'
 import { isIP } from 'net'
-import jsonVendors from './vendors.json'  // from https://macaddress.io/database-download/json
+import jsonVendors from './vendors.json' // from https://macaddress.io/database-download/json
 
 export interface IArpTableRow {
   ip: string
   mac: string
-  type: 'static' | 'dynamic',
+  type: 'static' | 'dynamic'
   vendor: string
 }
 
 export type IArpTable = IArpTableRow[]
-
-interface IVendor {
-  oui: string,
-  companyName: string
-}
 
 /*
 
@@ -134,14 +129,14 @@ export function getTable(): Promise<IArpTable> {
 
         const nomalizedMac = normalize(mac)
 
-        const vendor = (jsonVendors as IVendor[]).find(({oui}) => nomalizedMac.startsWith(oui.toLowerCase()))
+        const vendor = jsonVendors.find(({ id }) => nomalizedMac.startsWith(id.toLowerCase()))
 
         // Add this row to the table
         table.push({
           ip,
           mac: nomalizedMac,
           type: type as 'static' | 'dynamic',
-          vendor: vendor ? vendor.companyName : ''
+          vendor: vendor ? vendor.cn : ''
         })
       }
 
@@ -161,11 +156,11 @@ export async function toMAC(ip: string): Promise<string | null> {
   // Get the arp table
   const arpTable = await getTable()
   // Try to find a match in the table
-  const match: string = arpTable.reduce((prev, curr) => (curr.ip === ip ? curr.mac : prev), '')
-  // If no match was vendor then return null
+  const match = arpTable.find(row => row.ip === ip)
+  // If no match was found then return null
   if (!match) return null
   // Otherwise return with the mac
-  return match
+  return match.mac
 }
 
 /**
@@ -181,11 +176,11 @@ export async function toIP(mac: string): Promise<string | null> {
   const arpTable = await getTable()
 
   // Try to find a match in the table
-  const match: string = arpTable.reduce((prev, curr) => (curr.mac === mac ? curr.ip : prev), '')
-  // If no match was vendor then return null
+  const match = arpTable.find(row => row.mac === mac)
+  // If no match was found then return null
   if (!match) return null
   // Otherwise return with the ip
-  return match
+  return match.ip
 }
 
 export async function is(type: 'static' | 'dynamic' | 'undefined', address: string): Promise<boolean> {
