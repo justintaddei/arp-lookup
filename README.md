@@ -9,6 +9,10 @@
 ![](https://img.shields.io/github/languages/top/justintaddei/arp-lookup.svg?colorB=blue&style=flat)
 ![](https://img.shields.io/badge/status-awesome-red.svg?style=flat)
 
+## About
+
+`arp-lookup` is a simple ARP utility to map an IP address to a MAC address and vice versa. It also includes vendor information.
+
 ## Installation
 
 ```bash
@@ -64,7 +68,7 @@ await arp.getTable()
 
 ### `getTable(): Promise<IArpTable>`
 
-Returns a promise containing the parsed output of `$ arp -a`
+Returns a promise containing the parsed output of `$ arp -a` with the addition of a `vendor` field.
 
 ---
 
