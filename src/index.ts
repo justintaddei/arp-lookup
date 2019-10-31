@@ -17,7 +17,7 @@ $ arp -a
 
 Interface: 192.168.137.1 --- 0x2
   Internet Address      Physical Address      Type      Vendor
-  192.168.137.255       ff-ff-ff-ff-ff-ff     static    
+  192.168.137.255       ff-ff-ff-ff-ff-ff     static
   224.0.0.22            01-00-5e-00-00-16     static
   224.0.0.251           01-00-5e-00-00-fb     static
   224.0.0.252           01-00-5e-00-00-fc     static
@@ -77,6 +77,18 @@ export function isMAC(mac: string): boolean {
   return /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/i.test(mac)
 }
 
+
+/**
+ * Fixes the non compliant MAC addresses returned on Apple systems by adding a leading 0 on parts of the address
+ * @param mac The MAC address to FIX
+ */
+function fixMAC(mac: string): string {
+  return normalize(mac)
+    .split(':')
+    .map(part => part.length === 1 ? '0'+part : part)
+    .join(':');
+}
+
 /**
  * Retrieves the networks' arp table
  */
@@ -110,14 +122,29 @@ export function getTable(): Promise<IArpTable> {
 
       // Loop over each row
       for (const row of rows) {
-        // Trim the white space from the row
-        // and collapse double spaces then
-        // split the row into columns
-        // of ip, mac, type
-        const [ip, mac, type] = row
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
+        let ip;
+        let mac;
+        let type;
+
+        if (process.platform.substring(0, 3 ) === 'win') {
+          // Parse the rows as they are returned on Windows systems
+          // Trim the white space from the row and collapse double spaces then
+          // split the row into columns of ip, mac, type
+          [ip, mac, type] = row
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ');
+        } else {
+          // Parse the rows as they are returned on unix (Mac) systems
+          const match = /.*\((.*?)\) at (.*) on/g.exec(row);
+          if (match && match.length === 3) {
+            ip = match[1];
+            mac = fixMAC(match[2]);
+            type = 'unknown';
+          } else {
+            continue;
+          }
+        }
 
         /*
           If `ip` isn't a valid IP address or `mac` isn't
@@ -185,6 +212,9 @@ export async function toIP(mac: string): Promise<string | null> {
 
 export async function is(type: 'static' | 'dynamic' | 'undefined', address: string): Promise<boolean> {
   if (!isIP(address) && !isMAC(address)) throw Error('Invalid address')
+  if (process.platform === 'darwin' && ['static', 'dynamic'].includes(type)) {
+    throw Error('Function not available on Mac architecture');
+  }
 
   if (isMAC(address)) address = normalize(address)
 
