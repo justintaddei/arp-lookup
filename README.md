@@ -42,12 +42,14 @@ arp.isMAC('not:a:mac') // false
 arp.isIP('192.168.2.47') // true
 arp.isIP('not.an.ip') // false
 
+// Note: Unavailable on Unix based systems.
 await arp.is('dynamic', '192.168.2.47') // true
 await arp.is('dynamic', '04:a1:51:1b:12:92') // true
 await arp.is('static', '192.168.2.255') // true
 await arp.is('static', 'ff:ff:ff:ff:ff:ff') // true
 await arp.is('undefined', '0.0.0.0') // true
 
+// Note: `type` property is always set to `"unknown"` on Unix systems
 await arp.getTable()
 // Result:
 [
@@ -68,7 +70,8 @@ await arp.getTable()
 
 ### `getTable(): Promise<IArpTable>`
 
-Returns a promise containing the parsed output of `$ arp -a` with the addition of a `vendor` field.
+Returns a promise containing the parsed output of `$ arp -a` with the addition of a `vendor` field.  
+**Note that the `type` property is always set to `"unknown"` on Unix systems**
 
 ---
 
@@ -86,12 +89,13 @@ Returns a promise containing the IP that relates to `mac` or `null` if a match c
 
 ---
 
-### `is(type: 'static' | 'dynamic' | 'undefined', address: string): Promise<boolean>`
+### `is(type: 'static' | 'dynamic' | 'unknown' | 'undefined', address: string): Promise<boolean>`
 
 - `address` can be any valid IP or MAC address
 
 Returns a promise containing a boolean which indicates the record for `address` is `type`.  
 Pass `type = "undefined"` to determine if a record for `address` exists or not  
+**This method is useless on Unix based systems because `$ arp -a` doesn't return the type for an address**  
 **Throws** an `"Invalid address"` error if `address` is not a valid IP or MAC address
 
 ---

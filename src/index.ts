@@ -5,7 +5,7 @@ import jsonVendors from './vendors.json' // from https://macaddress.io/database-
 export interface IArpTableRow {
   ip: string
   mac: string
-  type: 'static' | 'dynamic'
+  type: 'static' | 'dynamic' | 'unknown'
   vendor: string
 }
 
@@ -77,7 +77,6 @@ export function isMAC(mac: string): boolean {
   return /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/i.test(mac)
 }
 
-
 /**
  * Fixes the non compliant MAC addresses returned on Apple systems by adding a leading 0 on parts of the address
  * @param mac The MAC address to FIX
@@ -85,8 +84,8 @@ export function isMAC(mac: string): boolean {
 function fixMAC(mac: string): string {
   return normalize(mac)
     .split(':')
-    .map(part => part.length === 1 ? '0'+part : part)
-    .join(':');
+    .map(part => (part.length === 1 ? '0' + part : part))
+    .join(':')
 }
 
 /**
@@ -122,27 +121,27 @@ export function getTable(): Promise<IArpTable> {
 
       // Loop over each row
       for (const row of rows) {
-        let ip;
-        let mac;
-        let type;
+        let ip: string
+        let mac: string
+        let type: IArpTableRow['type']
 
-        if (process.platform.substring(0, 3 ) === 'win') {
+        if (process.platform.substring(0, 3) === 'win') {
           // Parse the rows as they are returned on Windows systems
           // Trim the white space from the row and collapse double spaces then
           // split the row into columns of ip, mac, type
-          [ip, mac, type] = row
+          ;[ip, mac, type] = row
             .trim()
             .replace(/\s+/g, ' ')
-            .split(' ');
+            .split(' ') as [string, string, IArpTableRow['type']]
         } else {
           // Parse the rows as they are returned on unix (Mac) systems
-          const match = /.*\((.*?)\) at (.*) on/g.exec(row);
+          const match = /.*\((.*?)\) at (.*) on/g.exec(row)
           if (match && match.length === 3) {
-            ip = match[1];
-            mac = fixMAC(match[2]);
-            type = 'unknown';
+            ip = match[1]
+            mac = fixMAC(match[2])
+            type = 'unknown'
           } else {
-            continue;
+            continue
           }
         }
 
@@ -162,7 +161,7 @@ export function getTable(): Promise<IArpTable> {
         table.push({
           ip,
           mac: nomalizedMac,
-          type: type as 'static' | 'dynamic',
+          type,
           vendor: vendor ? vendor.cn : ''
         })
       }
@@ -210,17 +209,17 @@ export async function toIP(mac: string): Promise<string | null> {
   return match.ip
 }
 
-export async function is(type: 'static' | 'dynamic' | 'undefined', address: string): Promise<boolean> {
+export async function is(type: IArpTableRow['type'], address: string): Promise<boolean> {
   if (!isIP(address) && !isMAC(address)) throw Error('Invalid address')
   if (process.platform === 'darwin' && ['static', 'dynamic'].includes(type)) {
-    throw Error('Function not available on Mac architecture');
+    throw Error('Function not available on Mac architecture')
   }
 
   if (isMAC(address)) address = normalize(address)
 
   const arpTable = await getTable()
 
-  let actualType: 'static' | 'dynamic' | 'undefined' = 'undefined'
+  let actualType: IArpTableRow['type'] | 'undefined' = 'undefined'
 
   for (const row of arpTable) {
     if (row.ip === address || row.mac === address) {
