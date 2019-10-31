@@ -209,7 +209,7 @@ export async function toIP(mac: string): Promise<string | null> {
   return match.ip
 }
 
-export async function is(type: IArpTableRow['type'], address: string): Promise<boolean> {
+export async function is(type: IArpTableRow['type'] | 'undefined', address: string): Promise<boolean> {
   if (!isIP(address) && !isMAC(address)) throw Error('Invalid address')
   if (process.platform === 'darwin' && ['static', 'dynamic'].includes(type)) {
     throw Error('Function not available on Mac architecture')
