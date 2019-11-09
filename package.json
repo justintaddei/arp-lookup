@@ -46,12 +46,12 @@
   ],
   "devDependencies": {
     "@types/jest": "24.0.18",
+    "@types/node": "12.7.12",
     "jest": "24.9.0",
     "prettier": "1.18.2",
     "ts-jest": "24.1.0",
     "tslint": "5.20.0",
     "tslint-config-prettier": "1.18.0",
-    "typescript": "3.6.4",
-    "@types/node": "12.7.12"
+    "typescript": "^3.7.2"
   }
 }
