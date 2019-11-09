@@ -77,15 +77,23 @@ Returns a promise containing the parsed output of `$ arp -a` with the addition o
 
 ### `toMAC(ip: string): Promise<string | null>`
 
-Returns a promise containing the MAC that relates to `ip` or `null` if a match couldn't be made  
+Returns a promise containing the MAC that relates to `ip` or `null` if a match couldn't be made.  
 **Throws** an `"Invalid IP"` error if `ip` is not a valid IP address
 
 ---
 
 ### `toIP(mac: string): Promise<string | null>`
 
-Returns a promise containing the IP that relates to `mac` or `null` if a match couldn't be made  
+Returns a promise containing the IP that relates to `mac` or `null` if a match couldn't be made.  
 **Throws** an `"Invalid MAC"` error if `mac` is not a valid MAC address
+
+---
+
+### `fromPrefix(prefix: string): Promise<IArpTableRow[]>`
+
+Returns any devices on the network with the specified MAC prefix, or an empty array of none exist.  
+**Throws** an `"Invalid Prefix"` error if `prefix` is not a valid MAC address prefix
+
 
 ---
 
@@ -94,7 +102,7 @@ Returns a promise containing the IP that relates to `mac` or `null` if a match c
 - `address` can be any valid IP or MAC address
 
 Returns a promise containing a boolean which indicates the record for `address` is `type`.  
-Pass `type = "undefined"` to determine if a record for `address` exists or not  
+Pass `type = "undefined"` to determine if a record for `address` exists or not.  
 **This method is useless on Unix based systems because `$ arp -a` doesn't return the type for an address**  
 **Throws** an `"Invalid address"` error if `address` is not a valid IP or MAC address
 
@@ -106,9 +114,34 @@ Checks if a MAC address is valid
 
 ---
 
+### `isPrefix(prefix: string): boolean`
+
+Checks if a MAC address prefix is valid
+
+---
+
 ### `isIP(ip: string): boolean`
 
 Checks if an IP address is valid
+
+---
+
+### `IArpTableRow`
+
+```typescript
+IArpTableRow {
+  ip: string
+  mac: string
+  type: 'static' | 'dynamic' | 'unknown'
+  vendor: string
+}
+```
+
+---
+
+### `IArpTable`
+
+An array of `IArpTableRow`'s.
 
 ---
 

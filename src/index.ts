@@ -89,6 +89,14 @@ export function isMAC(mac: string): boolean {
 }
 
 /**
+ * Checks if a MAC address prefix is valid
+ * @param prefix The prefix to validate
+ */
+export function isPrefix(prefix: string): boolean {
+  return /^([0-9A-F]{2}[:-]){2}([0-9A-F]{2})$/i.test(prefix)
+}
+
+/**
  * Retrieves the networks' arp table
  */
 export function getTable(): Promise<IArpTable> {
@@ -209,6 +217,19 @@ export async function toIP(mac: string): Promise<string | null> {
   return match.ip
 }
 
+/**
+ * Returns all devices on the network with
+ * the specified MAC prefix
+ * @param prefix the prefix to search for
+ */
+export async function fromPrefix(prefix: string): Promise<IArpTableRow[]> {
+  if (!isPrefix(prefix)) throw Error('Invalid Prefix')
+
+  const table = await getTable()
+
+  return table.filter(row => row.mac.startsWith(prefix))
+}
+
 export async function is(type: IArpTableRow['type'] | 'undefined', address: string): Promise<boolean> {
   if (!isIP(address) && !isMAC(address)) throw Error('Invalid address')
   if (process.platform === 'darwin' && ['static', 'dynamic'].includes(type)) {
@@ -232,10 +253,12 @@ export async function is(type: IArpTableRow['type'] | 'undefined', address: stri
 }
 
 export default {
+  fromPrefix,
   getTable,
   is,
   isIP,
   isMAC,
+  isPrefix,
   toIP,
   toMAC
 }
