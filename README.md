@@ -91,7 +91,7 @@ Returns a promise containing the IP that relates to `mac` or `null` if a match c
 
 ### `fromPrefix(prefix: string): Promise<IArpTableRow[]>`
 
-Returns any devices on the network with the specified MAC prefix, or an empty array of none exist.  
+Returns any devices on the network with the specified MAC prefix, or an empty array if none exist.  
 **Throws** an `"Invalid Prefix"` error if `prefix` is not a valid MAC address prefix
 
 
