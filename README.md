@@ -64,6 +64,19 @@ await arp.getTable()
     { ip: '224.0.0.2', mac: '01:00:5e:00:00:02', type: 'static', vendor: '' },
     ...
 ]
+
+
+// Note: `type` property is always set to `"unknown"` on Unix systems
+await arp.fromPrefix('01:00:5e')
+// Result:
+[
+    { ip: '224.0.0.22', mac: '01:00:5e:00:00:16', type: 'static', vendor: '' },
+    { ip: '224.0.0.251', mac: '01:00:5e:00:00:fb', type: 'static', vendor: '' },
+    { ip: '224.0.0.252', mac: '01:00:5e:00:00:fc', type: 'static', vendor: '' },
+    { ip: '239.255.255.250', mac: '01:00:5e:7f:ff:fa', type: 'static', vendor: '' },
+    { ip: '224.0.0.2', mac: '01:00:5e:00:00:02', type: 'static', vendor: '' },
+    ...
+]
 ```
 
 ---
