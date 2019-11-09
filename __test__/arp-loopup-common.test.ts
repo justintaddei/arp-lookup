@@ -3,6 +3,9 @@ jest.mock('child_process')
 import arp from '../src/index'
 
 describe('Common', () => {
+  Object.defineProperty(process, 'platform', {
+    value: 'win32'
+  })
   describe('Arp conversions', () => {
     test('Convert from ip to mac', async done => {
       const mac = await arp.toMAC('192.168.2.1')
