@@ -70,14 +70,6 @@ function normalize(mac: string): string {
 }
 
 /**
- * Checks if a MAC address is valid
- * @param mac The MAC address to validate
- */
-export function isMAC(mac: string): boolean {
-  return /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/i.test(mac)
-}
-
-/**
  * Fixes the non compliant MAC addresses returned on Apple systems by adding a leading 0 on parts of the address
  * @param mac The MAC address to FIX
  */
@@ -86,6 +78,14 @@ function fixMAC(mac: string): string {
     .split(':')
     .map(part => (part.length === 1 ? '0' + part : part))
     .join(':')
+}
+
+/**
+ * Checks if a MAC address is valid
+ * @param mac The MAC address to validate
+ */
+export function isMAC(mac: string): boolean {
+  return /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/i.test(mac)
 }
 
 /**
