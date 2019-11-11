@@ -142,8 +142,8 @@ export function getTable(): Promise<IArpTable> {
             .replace(/\s+/g, ' ')
             .split(' ') as [string, string, IArpTableRow['type']]
         } else {
-          // Parse the rows as they are returned on unix (Mac) systems
-          const match = /.*\((.*?)\) at (.*) on/g.exec(row)
+          // Parse the rows as they are returned on unix (Mac or Linux) systems
+          const match = /.*\((.*?)\) at (.{0,17}) (?:\[ether\]|on)/g.exec(row)
           if (match && match.length === 3) {
             ip = match[1]
             mac = fixMAC(match[2])

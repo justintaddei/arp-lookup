@@ -33,11 +33,22 @@ const arpTableMac = `? (192.168.137.255) at ff-ff-ff-ff-ff-ff on en9 ifscope [et
   ? (239.255.255.250) at 01-00-5e-7f-ff-fa on en9 ifscope [ethernet]
   ? (255.255.255.255) at ff-ff-ff-ff-ff-ff on en9 ifscope [ethernet]`
 
+const arpTableLinux = `? (192.168.0.14) at 1s:21:f3:f1:fe:f2 [ether] on wlan0
+? (192.168.0.13) at 01:00:5e:7f:ff:fa [ether] on wlan0
+? (192.168.0.3) at ff:ff:ff:ff:ff:ff [ether] on wlan0
+? (192.168.0.2) at 01:00:5e:00:00:fb [ether] on wlan0
+? (192.168.0.7) at 01:00:5e:00:00:16 [ether] on wlan0
+? (192.168.0.6) at 01:00:5e:00:00:02 [ether] on wlan0
+? (192.168.0.5) at 01:00:5e:7f:ff:fa [ether] on wlan0`
+
 export function exec(cmd: string, cb: (err: Error | undefined, stdout: string) => void) {
   if (cmd !== 'arp -a') cb(Error('Unknown command'), 'unknown command')
 
-  if (process.platform.substring(0, 3) === 'win') {
+  let platform = process.platform.substring(0, 3);
+  if (platform === 'win') {
     cb(undefined, arpTableWin)
+  } else if(platform === 'lin') {
+    cb(undefined, arpTableLinux)
   } else {
     cb(undefined, arpTableMac)
   }
