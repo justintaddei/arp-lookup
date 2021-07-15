@@ -15,6 +15,11 @@
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/justintaddei/arp-lookup.git"
@@ -45,8 +50,11 @@
     "Alessio Carrafa <alessio.carrafa@hotmail.it> (http://www.alessiocarrafa.it/)"
   ],
   "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "@types/jest": "24.0.18",
     "@types/node": "12.7.12",
+    "husky": "^7.0.1",
     "jest": "24.9.0",
     "prettier": "1.18.2",
     "ts-jest": "24.1.0",
