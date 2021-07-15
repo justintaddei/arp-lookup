@@ -57,7 +57,7 @@
     "husky": "^7.0.1",
     "jest": "24.9.0",
     "prettier": "2.3.2",
-    "ts-jest": "24.1.0",
+    "ts-jest": "24.3.0",
     "tslint": "5.20.0",
     "tslint-config-prettier": "1.18.0",
     "typescript": "^3.7.2"
