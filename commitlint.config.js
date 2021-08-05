@@ -5,13 +5,13 @@ module.exports = {
     'body-max-line-length': [0]
   },
   ignores: [
-    (commit) => {
-      // WIP: commits
-      return /^WIP(:\s(.|\n)+)?$/.test(commit.trim())
+    commit => {
+      // wip: commits
+      return /^wip(:\s(.|\n)+)?$/.test(commit.trim())
     },
-    (commit) => {
-      // $ npm version commits (1.1.0)
-      return /^\d+\.\d+\.\d+.*$/.test(commit.trim())
+    commit => {
+      // Release commits (Release 1.1.0, Release 1.1.0-beta.1)
+      return /^Release \d+\.\d+\.\d+(?:-.+)?$/.test(commit.trim())
     }
   ]
 }
