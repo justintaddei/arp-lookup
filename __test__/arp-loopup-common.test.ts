@@ -7,19 +7,17 @@ describe('Common', () => {
     value: 'win32'
   })
   describe('Arp conversions', () => {
-    test('Convert from ip to mac', async done => {
+    test('Convert from ip to mac', async () => {
       const mac = await arp.toMAC('192.168.2.1')
       expect(mac).toBe('04:a1:51:1b:12:92')
-      done()
     })
-    test('Convert from mac to ip', async done => {
+    test('Convert from mac to ip', async () => {
       const ip = await arp.toIP('04:a1:51:1b:12:92')
       expect(ip).toBe('192.168.2.1')
-      done()
     })
 
     describe('arp.fromPrefix()', () => {
-      test('Retrieves all matching devices', async done => {
+      test('Retrieves all matching devices', async () => {
         await expect(arp.fromPrefix('01:00:5e')).resolves.toEqual([
           { ip: '224.0.0.22', mac: '01:00:5e:00:00:16', type: 'static', vendor: '' },
           { ip: '224.0.0.251', mac: '01:00:5e:00:00:fb', type: 'static', vendor: '' },
@@ -31,61 +29,49 @@ describe('Common', () => {
           { ip: '224.0.0.252', mac: '01:00:5e:00:00:fc', type: 'static', vendor: '' },
           { ip: '239.255.255.250', mac: '01:00:5e:7f:ff:fa', type: 'static', vendor: '' }
         ])
-        done()
       })
-      test("Returns empty array if there aren't any matching devices", async done => {
+      test("Returns empty array if there aren't any matching devices", async () => {
         await expect(arp.fromPrefix('00:00:00')).resolves.toEqual([])
-        done()
       })
     })
 
     describe('arp.is()', () => {
-      test('static mac', async done => {
+      test('static mac', async () => {
         await expect(arp.is('static', '01:00:5e:00:00:02')).resolves.toBe(true)
-        done()
       })
-      test('static ip', async done => {
+      test('static ip', async () => {
         await expect(arp.is('static', '192.168.2.255')).resolves.toBe(true)
-        done()
       })
-      test('dynamic mac', async done => {
+      test('dynamic mac', async () => {
         await expect(arp.is('dynamic', '04:a1:51:1b:12:92')).resolves.toBe(true)
-        done()
       })
-      test('dynamic ip', async done => {
+      test('dynamic ip', async () => {
         await expect(arp.is('dynamic', '192.168.2.1')).resolves.toBe(true)
-        done()
       })
-      test('undefined address', async done => {
+      test('undefined address', async () => {
         await expect(arp.is('undefined', '0.0.0.0')).resolves.toBe(true)
-        done()
       })
     })
   })
 
   describe('Validation works properly', () => {
     describe('MAC addresses', () => {
-      test('toIP() throws on invalid mac', async done => {
+      test('toIP() throws on invalid mac', async () => {
         await expect(arp.toIP('not:a:mac')).rejects.toThrowError('Invalid MAC')
-        done()
       })
-      test('is() throws on invalid mac', async done => {
+      test('is() throws on invalid mac', async () => {
         await expect(arp.is('undefined', 'not:a:mac')).rejects.toThrowError('Invalid address')
-        done()
       })
-      test('fromPrefix() throws on invalid mac', async done => {
+      test('fromPrefix() throws on invalid mac', async () => {
         await expect(arp.fromPrefix('not:a:mac')).rejects.toThrowError('Invalid Prefix')
-        done()
       })
     })
     describe('IP addresses', () => {
-      test('Throw on invalid ip', async done => {
+      test('Throw on invalid ip', async () => {
         await expect(arp.toMAC('not.an.ip')).rejects.toThrowError('Invalid IP')
-        done()
       })
-      test('is() throws on invalid ip', async done => {
+      test('is() throws on invalid ip', async () => {
         await expect(arp.is('undefined', 'not.an.ip')).rejects.toThrowError('Invalid address')
-        done()
       })
     })
   })

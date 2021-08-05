@@ -6,7 +6,7 @@ describe('On a Mac environment', () => {
   Object.defineProperty(process, 'platform', {
     value: 'darwin'
   })
-  test('Arp table is parsed', async done => {
+  test('Arp table is parsed', async () => {
     await expect(arp.getTable()).resolves.toEqual([
       { ip: '192.168.137.255', mac: 'ff:ff:ff:ff:ff:ff', type: 'unknown', vendor: '' },
       { ip: '224.0.0.22', mac: '01:00:5e:00:00:16', type: 'unknown', vendor: '' },
@@ -23,6 +23,5 @@ describe('On a Mac environment', () => {
       { ip: '239.255.255.250', mac: '01:00:5e:7f:ff:fa', type: 'unknown', vendor: '' },
       { ip: '255.255.255.255', mac: 'ff:ff:ff:ff:ff:ff', type: 'unknown', vendor: '' }
     ])
-    done()
   })
 })
