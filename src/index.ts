@@ -76,7 +76,7 @@ function normalize(mac: string): string {
 function fixMAC(mac: string): string {
   return normalize(mac)
     .split(':')
-    .map(part => (part.length === 1 ? '0' + part : part))
+    .map((part) => (part.length === 1 ? '0' + part : part))
     .join(':')
 }
 
@@ -137,10 +137,7 @@ export function getTable(): Promise<IArpTable> {
           // Parse the rows as they are returned on Windows systems
           // Trim the white space from the row and collapse double spaces then
           // split the row into columns of ip, mac, type
-          ;[ip, mac, type] = row
-            .trim()
-            .replace(/\s+/g, ' ')
-            .split(' ') as [string, string, IArpTableRow['type']]
+          ;[ip, mac, type] = row.trim().replace(/\s+/g, ' ').split(' ') as [string, string, IArpTableRow['type']]
         } else {
           // Parse the rows as they are returned on unix (Mac or Linux) systems
           const match = /.*\((.*?)\) at (.{0,17}) (?:\[ether\]|on)/g.exec(row)
@@ -170,7 +167,7 @@ export function getTable(): Promise<IArpTable> {
           ip,
           mac: nomalizedMac,
           type,
-          vendor: vendor ? vendor.cn : ''
+          vendor: vendor ? vendor.cn : '',
         })
       }
 
@@ -190,7 +187,7 @@ export async function toMAC(ip: string): Promise<string | null> {
   // Get the arp table
   const arpTable = await getTable()
   // Try to find a match in the table
-  const match = arpTable.find(row => row.ip === ip)
+  const match = arpTable.find((row) => row.ip === ip)
   // If no match was found then return null
   if (!match) return null
   // Otherwise return with the mac
@@ -210,7 +207,7 @@ export async function toIP(mac: string): Promise<string | null> {
   const arpTable = await getTable()
 
   // Try to find a match in the table
-  const match = arpTable.find(row => row.mac === mac)
+  const match = arpTable.find((row) => row.mac === mac)
   // If no match was found then return null
   if (!match) return null
   // Otherwise return with the ip
@@ -227,7 +224,7 @@ export async function fromPrefix(prefix: string): Promise<IArpTableRow[]> {
 
   const table = await getTable()
 
-  return table.filter(row => row.mac.startsWith(prefix))
+  return table.filter((row) => row.mac.startsWith(prefix))
 }
 
 export async function is(type: IArpTableRow['type'] | 'undefined', address: string): Promise<boolean> {
@@ -260,5 +257,5 @@ export default {
   isMAC,
   isPrefix,
   toIP,
-  toMAC
+  toMAC,
 }

@@ -7,13 +7,14 @@
   "scripts": {
     "test": "jest --config jestconfig.json",
     "build": "tsc",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "husky install && npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "release": "npm run lint && npm run format && npm run test && standard-version"
   },
   "repository": {
     "type": "git",
@@ -52,6 +53,7 @@
     "husky": "^7.0.1",
     "jest": "24.9.0",
     "prettier": "2.3.2",
+    "standard-version": "^9.3.1",
     "ts-jest": "24.1.0",
     "tslint": "5.20.0",
     "tslint-config-prettier": "1.18.0",
