@@ -1,13 +1,12 @@
 # arp-lookup
 
-![](https://img.shields.io/travis/justintaddei/arp-lookup.svg?style=flat)
+[![checks](https://github.com/justintaddei/arp-lookup/actions/workflows/tests.yml/badge.svg)](https://github.com/justintaddei/arp-lookup/actions/workflows/tests.yml)
 ![](https://img.shields.io/github/issues-raw/justintaddei/arp-lookup.svg?style=flat)
 ![](https://img.shields.io/npm/v/@network-utils/arp-lookup.svg?style=flat)
 ![](https://img.shields.io/npm/dt/@network-utils/arp-lookup.svg?style=flat)
 ![](https://img.shields.io/npm/l/@network-utils/arp-lookup.svg?style=flat)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)](https://github.com/prettier/prettier)
-![](https://img.shields.io/github/languages/top/justintaddei/arp-lookup.svg?colorB=blue&style=flat)
-![](https://img.shields.io/badge/status-awesome-red.svg?style=flat)
+![](https://img.shields.io/badge/language-typescript-blue.svg?style=flat)
 
 ## About
 
@@ -16,7 +15,7 @@
 ## Installation
 
 ```bash
-$ npm install @network-utils/arp-lookup --save
+$ npm install @network-utils/arp-lookup
 ```
 
 ## Usage
