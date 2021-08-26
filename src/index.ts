@@ -140,10 +140,10 @@ export function getTable(): Promise<IArpTable> {
           ;[ip, mac, type] = row.trim().replace(/\s+/g, ' ').split(' ') as [string, string, IArpTableRow['type']]
         } else {
           // Parse the rows as they are returned on unix (Mac or Linux) systems
-          const match = /.*\((.*?)\) at (.{0,17}) (?:\[ether\]|on)/g.exec(row)
-          if (match && match.length === 3) {
+          const match = /.*\((.*?)\) (\w+) (.{0,17}) (?:\[ether\]|on)/g.exec(row)
+          if (match && match.length === 4) {
             ip = match[1]
-            mac = fixMAC(match[2])
+            mac = fixMAC(match[3])
             type = 'unknown'
           } else {
             continue
