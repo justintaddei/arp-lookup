@@ -1,6 +1,10 @@
 {
   "extends": ["tslint:recommended", "tslint-config-prettier"],
   "rules": {
-    "curly": false
+    "curly": false,
+    "no-console": {
+      "severity": "error",
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+    }
   }
 }

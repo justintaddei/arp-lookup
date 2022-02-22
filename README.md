@@ -112,7 +112,7 @@ Returns any devices on the network with the specified MAC prefix, or an empty ar
 
 ---
 
-### `is(type: 'static' | 'dynamic' | 'unknown' | 'undefined', address: string): Promise<boolean>`
+### `isType(type: 'static' | 'dynamic' | 'unknown' | 'undefined', address: string): Promise<boolean>`
 
 - `address` can be any valid IP or MAC address
 

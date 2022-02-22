@@ -135,11 +135,11 @@ export async function fromPrefix(prefix: string): Promise<IArpTableRow[]> {
   return table.filter((row) => row.mac.startsWith(prefix))
 }
 
-export async function is(type: IArpTableRow['type'] | 'undefined', address: string): Promise<boolean> {
+export async function isType(type: IArpTableRow['type'] | 'undefined', address: string): Promise<boolean> {
   if (!isIP(address) && !isMAC(address)) throw Error('Invalid address')
-  if (process.platform === 'darwin' && ['static', 'dynamic'].includes(type)) {
-    throw Error('Function not available on Mac architecture')
-  }
+
+  if (process.platform === 'darwin' && type !== 'unknown' && process.env.NODE_ENV !== 'production')
+    console.warn('[arp-lookup] `isType` will always return `false` for types other than "unknown" on darwin systems')
 
   if (isMAC(address)) address = normalize(address)
 
@@ -151,7 +151,7 @@ export async function is(type: IArpTableRow['type'] | 'undefined', address: stri
 export default {
   fromPrefix,
   getTable,
-  is,
+  isType,
   isIP,
   isMAC,
   isPrefix,
