@@ -1,12 +1,9 @@
 import { exec } from 'child_process'
 import { isIP } from 'net'
-import jsonVendors from './vendors.json' // from https://macaddress.io/database-download/json
-
 export interface IArpTableRow {
   ip: string
   mac: string
   type: 'static' | 'dynamic' | 'unknown'
-  vendor: string
 }
 
 export type IArpTable = IArpTableRow[]
@@ -88,7 +85,6 @@ export function getTable(): Promise<IArpTable> {
           ip,
           mac: normalize(mac),
           type,
-          vendor: vendor ? vendor.cn : '',
         })
       }
 

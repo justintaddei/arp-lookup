@@ -4,7 +4,7 @@ import arp from '../src/index'
 
 describe('Common', () => {
   Object.defineProperty(process, 'platform', {
-    value: 'win32'
+    value: 'win32',
   })
   describe('Arp conversions', () => {
     test('Convert from ip to mac', async () => {
@@ -18,17 +18,7 @@ describe('Common', () => {
 
     describe('arp.fromPrefix()', () => {
       test('Retrieves all matching devices', async () => {
-        await expect(arp.fromPrefix('01:00:5e')).resolves.toEqual([
-          { ip: '224.0.0.22', mac: '01:00:5e:00:00:16', type: 'static', vendor: '' },
-          { ip: '224.0.0.251', mac: '01:00:5e:00:00:fb', type: 'static', vendor: '' },
-          { ip: '224.0.0.252', mac: '01:00:5e:00:00:fc', type: 'static', vendor: '' },
-          { ip: '239.255.255.250', mac: '01:00:5e:7f:ff:fa', type: 'static', vendor: '' },
-          { ip: '224.0.0.2', mac: '01:00:5e:00:00:02', type: 'static', vendor: '' },
-          { ip: '224.0.0.22', mac: '01:00:5e:00:00:16', type: 'static', vendor: '' },
-          { ip: '224.0.0.251', mac: '01:00:5e:00:00:fb', type: 'static', vendor: '' },
-          { ip: '224.0.0.252', mac: '01:00:5e:00:00:fc', type: 'static', vendor: '' },
-          { ip: '239.255.255.250', mac: '01:00:5e:7f:ff:fa', type: 'static', vendor: '' }
-        ])
+        await expect(arp.fromPrefix('01:00:5e')).resolves.toMatchSnapshot()
       })
       test("Returns empty array if there aren't any matching devices", async () => {
         await expect(arp.fromPrefix('00:00:00')).resolves.toEqual([])

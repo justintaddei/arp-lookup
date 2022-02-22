@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`On a Mac environment Arp table is parsed 1`] = `
+Array [
+  Object {
+    "ip": "192.168.137.255",
+    "mac": "ff:ff:ff:ff:ff:ff",
+    "type": "unknown",
+  },
+  Object {
+    "ip": "224.0.0.22",
+    "mac": "01:00:5e:00:00:16",
+    "type": "unknown",
+  },
+  Object {
+    "ip": "224.0.0.251",
+    "mac": "01:00:5e:00:00:fb",
+    "type": "unknown",
+  },
+  Object {
+    "ip": "224.0.0.252",
+    "mac": "01:00:5e:00:00:fc",
+    "type": "unknown",
+  },
+  Object {
+    "ip": "239.255.255.250",
+    "mac": "01:00:5e:7f:ff:fa",
+    "type": "unknown",
+  },
+  Object {
+    "ip": "255.255.255.255",
+    "mac": "ff:ff:ff:ff:ff:ff",
+    "type": "unknown",
+  },
+  Object {
+    "ip": "192.168.2.1",
+    "mac": "04:a1:51:1b:12:92",
+    "type": "unknown",
+  },
+  Object {
+    "ip": "192.168.2.255",
+    "mac": "ff:ff:ff:ff:ff:ff",
+    "type": "unknown",
+  },
+  Object {
+    "ip": "224.0.0.2",
+    "mac": "01:00:5e:00:00:02",
+    "type": "unknown",
+  },
+  Object {
+    "ip": "224.0.0.22",
+    "mac": "01:00:5e:00:00:16",
+    "type": "unknown",
+  },
+  Object {
+    "ip": "224.0.0.251",
+    "mac": "01:00:5e:00:00:fb",
+    "type": "unknown",
+  },
+  Object {
+    "ip": "224.0.0.252",
+    "mac": "01:00:5e:00:00:fc",
+    "type": "unknown",
+  },
+  Object {
+    "ip": "239.255.255.250",
+    "mac": "01:00:5e:7f:ff:fa",
+    "type": "unknown",
+  },
+  Object {
+    "ip": "255.255.255.255",
+    "mac": "ff:ff:ff:ff:ff:ff",
+    "type": "unknown",
+  },
+]
+`;

@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Common Arp conversions arp.fromPrefix() Retrieves all matching devices 1`] = `
+Array [
+  Object {
+    "ip": "224.0.0.22",
+    "mac": "01:00:5e:00:00:16",
+    "type": "static",
+  },
+  Object {
+    "ip": "224.0.0.251",
+    "mac": "01:00:5e:00:00:fb",
+    "type": "static",
+  },
+  Object {
+    "ip": "224.0.0.252",
+    "mac": "01:00:5e:00:00:fc",
+    "type": "static",
+  },
+  Object {
+    "ip": "239.255.255.250",
+    "mac": "01:00:5e:7f:ff:fa",
+    "type": "static",
+  },
+  Object {
+    "ip": "224.0.0.2",
+    "mac": "01:00:5e:00:00:02",
+    "type": "static",
+  },
+  Object {
+    "ip": "224.0.0.22",
+    "mac": "01:00:5e:00:00:16",
+    "type": "static",
+  },
+  Object {
+    "ip": "224.0.0.251",
+    "mac": "01:00:5e:00:00:fb",
+    "type": "static",
+  },
+  Object {
+    "ip": "224.0.0.252",
+    "mac": "01:00:5e:00:00:fc",
+    "type": "static",
+  },
+  Object {
+    "ip": "239.255.255.250",
+    "mac": "01:00:5e:7f:ff:fa",
+    "type": "static",
+  },
+]
+`;
