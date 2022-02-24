@@ -1,6 +1,6 @@
 # arp-lookup
 
-[![checks](https://github.com/justintaddei/arp-lookup/actions/workflows/tests.yml/badge.svg)](https://github.com/justintaddei/arp-lookup/actions/workflows/tests.yml)
+[![checks](https://github.com/justintaddei/arp-lookup/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/justintaddei/arp-lookup/actions/workflows/tests.yml)
 ![](https://img.shields.io/github/issues-raw/justintaddei/arp-lookup.svg?style=flat)
 ![](https://img.shields.io/npm/v/@network-utils/arp-lookup.svg?style=flat)
 ![](https://img.shields.io/npm/dt/@network-utils/arp-lookup.svg?style=flat)
