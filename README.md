@@ -13,7 +13,7 @@
 `arp-lookup` is a simple ARP utility to map an IP address to a MAC address and vice versa.
 
 > Vendor information has been removed from v2 in favor of [@network-utils/vender-lookup](https://www.npmjs.com/package/@network-utils/vendor-lookup)  
-> Please see the CHANGELOG.md for the full list of breaking changes
+> Please see the [CHANGELOG.md](CHANGELOG.md) for the full list of breaking changes
 
 ## Installation
 
@@ -44,14 +44,14 @@ arp.isMAC('not:a:mac') // false
 arp.isIP('192.168.2.47') // true
 arp.isIP('not.an.ip') // false
 
-// Note: Unavailable on Unix based systems.
-await arp.is('dynamic', '192.168.2.47') // true
-await arp.is('dynamic', '04:a1:51:1b:12:92') // true
-await arp.is('static', '192.168.2.255') // true
-await arp.is('static', 'ff:ff:ff:ff:ff:ff') // true
-await arp.is('undefined', '0.0.0.0') // true
+// Note: Unavailable on darwin based systems.
+await arp.isType('dynamic', '192.168.2.47') // true
+await arp.isType('dynamic', '04:a1:51:1b:12:92') // true
+await arp.isType('static', '192.168.2.255') // true
+await arp.isType('static', 'ff:ff:ff:ff:ff:ff') // true
+await arp.isType('undefined', '0.0.0.0') // true
 
-// Note: `type` property is always set to `"unknown"` on Unix systems
+// Note: `type` property is always set to `"unknown"` on darwin systems
 await arp.getTable()
 // Result:
 [
