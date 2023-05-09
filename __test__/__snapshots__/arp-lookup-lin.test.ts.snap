@@ -1,33 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`On a Linux environment Arp table is parsed 1`] = `
-Array [
-  Object {
+[
+  {
     "ip": "192.168.0.13",
     "mac": "01:00:5e:7f:ff:fa",
     "type": "unknown",
   },
-  Object {
+  {
     "ip": "192.168.0.3",
     "mac": "ff:ff:ff:ff:ff:ff",
     "type": "unknown",
   },
-  Object {
+  {
     "ip": "192.168.0.2",
     "mac": "01:00:5e:00:00:fb",
     "type": "unknown",
   },
-  Object {
+  {
     "ip": "192.168.0.7",
     "mac": "01:00:5e:00:00:16",
     "type": "unknown",
   },
-  Object {
+  {
     "ip": "192.168.0.6",
     "mac": "01:00:5e:00:00:02",
     "type": "unknown",
   },
-  Object {
+  {
     "ip": "192.168.0.5",
     "mac": "01:00:5e:7f:ff:fa",
     "type": "unknown",
