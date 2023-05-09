@@ -1,6 +1,6 @@
 {
   "name": "@network-utils/arp-lookup",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A simple ARP util to map an IP address to a MAC address and vice versa.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
