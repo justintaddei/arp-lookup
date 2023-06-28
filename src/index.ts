@@ -148,9 +148,23 @@ export async function isType(type: IArpTableRow['type'] | 'undefined', address: 
   return type === recordedType
 }
 
+export async function getType(address: string): Promise<boolean> {
+  if (!isIP(address) && !isMAC(address)) throw Error('Invalid address')
+
+  if (process.platform === 'darwin' && process.env.NODE_ENV !== 'production')
+    console.warn('[arp-lookup] `isType` will always return `false` for types other than "unknown" on darwin systems')
+
+  if (isMAC(address)) address = normalize(address)
+
+  const recordedType = (await getTable()).find((row) => row.ip === address || row.mac === address)?.type ?? 'undefined'
+
+  return recordedType
+}
+
 export default {
   fromPrefix,
   getTable,
+  getType,
   isType,
   isIP,
   isMAC,
