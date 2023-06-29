@@ -112,6 +112,16 @@ Returns any devices on the network with the specified MAC prefix, or an empty ar
 
 ---
 
+### `getType(address: string): Promise<'static' | 'dynamic' | 'unknown' | 'undefined'>`
+
+- `address` can be any valid IP or MAC address
+
+Returns a promise containing a string which indicates the record `type`.  
+**This method is useless on Unix based systems because `$ arp -a` doesn't return the type for an address**  
+**Throws** an `"Invalid address"` error if `address` is not a valid IP or MAC address
+
+---
+
 ### `isType(type: 'static' | 'dynamic' | 'unknown' | 'undefined', address: string): Promise<boolean>`
 
 - `address` can be any valid IP or MAC address
