@@ -136,6 +136,9 @@ export async function fromPrefix(prefix: string): Promise<IArpTableRow[]> {
 }
 
 export async function isType(type: IArpTableRow['type'] | 'undefined', address: string): Promise<boolean> {
+  if (process.platform === 'darwin' && type !== 'unknown' && process.env.NODE_ENV !== 'production')
+    console.warn('[arp-lookup] `isType` will always return `false` for types other than "unknown" on darwin systems')
+
   return type === await getType(address)
 }
 
@@ -143,7 +146,7 @@ export async function getType(address: string): Promise<string> {
   if (!isIP(address) && !isMAC(address)) throw Error('Invalid address')
 
   if (process.platform === 'darwin' && process.env.NODE_ENV !== 'production')
-    console.warn('[arp-lookup] `isType` will always return `false` for types other than "unknown" on darwin systems')
+    console.warn('[arp-lookup] `getType` will always return "unknown" on darwin systems')
 
   if (isMAC(address)) address = normalize(address)
 
