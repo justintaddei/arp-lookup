@@ -15,7 +15,7 @@ export type IArpTable = IArpTableRow[]
  * Example: `04-A1-51-1B-12-92` => `04:a1:51:1b:12:92`
  * @param mac The MAC Address to normalize
  */
-const normalize = (mac: string): string => mac.replace(/\-/g, ':').toLowerCase()
+const normalize = (mac: string): string => mac.replace(/-/g, ':').toLowerCase()
 
 /**
  * Fixes the non compliant MAC addresses returned on Apple systems by adding a leading 0 on parts of the address
@@ -44,7 +44,11 @@ export const isPrefix = (prefix: string): boolean => /^([0-9A-F]{2}[:-]){2}([0-9
  */
 export function getTable(): Promise<IArpTable> {
   return new Promise((resolve, reject) => {
-    exec('arp -a', (err, rawArpData) => {
+
+    const isWindows = process.platform.substring(0, 3) === 'win';
+    const command = isWindows ? 'arp -a' : 'arp -an';
+
+    exec(command, (err, rawArpData) => {
       if (err) {
         reject(err)
         return
@@ -59,11 +63,11 @@ export function getTable(): Promise<IArpTable> {
         let mac: string
         let type: IArpTableRow['type']
 
-        if (process.platform.substring(0, 3) === 'win') {
-          ;[ip, mac, type] = row.trim().replace(/\s+/g, ' ').split(' ') as [string, string, IArpTableRow['type']]
+        if (isWindows) {
+          [ip, mac, type] = row.trim().replace(/\s+/g, ' ').split(' ') as [string, string, IArpTableRow['type']]
         } else {
           // Parse the rows as they are returned on unix (Mac or Linux) systems
-          const match = /.*\((.*?)\) (?:\w+) (.{0,17}) (?:\[ether\]|on)/g.exec(row)
+          const match = /.*\((.*?)\) \w+ (.{0,17}) (?:\[ether]|on)/g.exec(row)
           if (match && match.length === 3) {
             ip = match[1]
             mac = fixMAC(match[2])
