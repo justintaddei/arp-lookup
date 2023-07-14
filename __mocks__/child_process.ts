@@ -42,9 +42,9 @@ const arpTableLinux = `? (192.168.0.14) at 1s:21:f3:f1:fe:f2 [ether] on wlan0
 ? (192.168.0.5) at 01:00:5e:7f:ff:fa [ether] on wlan0`
 
 export function exec(cmd: string, cb: (err: Error | undefined, stdout: string) => void) {
-  if (cmd !== 'arp -a') cb(Error('Unknown command'), 'unknown command')
+  if (cmd !== 'arp -a' && cmd !== 'arp -an') cb(Error('Unknown command'), 'unknown command')
 
-  let platform = process.platform.substring(0, 3);
+  const platform = process.platform.substring(0, 3);
   if (platform === 'win') {
     cb(undefined, arpTableWin)
   } else if(platform === 'lin') {
