@@ -44,9 +44,8 @@ export const isPrefix = (prefix: string): boolean => /^([0-9A-F]{2}[:-]){2}([0-9
  */
 export function getTable(): Promise<IArpTable> {
   return new Promise((resolve, reject) => {
-
-    const isWindows = process.platform.substring(0, 3) === 'win';
-    const command = isWindows ? 'arp -a' : 'arp -an';
+    const isWindows = process.platform.substring(0, 3) === 'win'
+    const command = isWindows ? 'arp -a' : 'arp -an'
 
     exec(command, (err, rawArpData) => {
       if (err) {
@@ -64,7 +63,7 @@ export function getTable(): Promise<IArpTable> {
         let type: IArpTableRow['type']
 
         if (isWindows) {
-          [ip, mac, type] = row.trim().replace(/\s+/g, ' ').split(' ') as [string, string, IArpTableRow['type']]
+          ;[ip, mac, type] = row.trim().replace(/\s+/g, ' ').split(' ') as [string, string, IArpTableRow['type']]
         } else {
           // Parse the rows as they are returned on unix (Mac or Linux) systems
           const match = /.*\((.*?)\) \w+ (.{0,17}) (?:\[ether]|on)/g.exec(row)
@@ -143,7 +142,7 @@ export async function isType(type: IArpTableRow['type'] | 'undefined', address: 
   if (process.platform === 'darwin' && type !== 'unknown' && process.env.NODE_ENV !== 'production')
     console.warn('[arp-lookup] `isType` will always return `false` for types other than "unknown" on darwin systems')
 
-  return type === await getType(address)
+  return type === (await getType(address))
 }
 
 export async function getType(address: string): Promise<string> {
