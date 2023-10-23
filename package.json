@@ -46,7 +46,7 @@
     "Alessio Carrafa <alessio.carrafa@hotmail.it> (http://www.alessiocarrafa.it/)"
   ],
   "devDependencies": {
-    "@commitlint/cli": "^17.0.2",
+    "@commitlint/cli": "^18.0.0",
     "@commitlint/config-conventional": "^17.0.2",
     "@types/jest": "^29.5.1",
     "@types/node": "^20.1.1",
